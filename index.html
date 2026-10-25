@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Հայկի Ծննդյան Օրվա Հետհաշվարկ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #070102;
+      --blood-red: #8a0303;
+      --crimson-glow: rgba(194, 24, 24, 0.55);
+      --dark-card: rgba(18, 2, 4, 0.72);
+      --glass-border: rgba(168, 28, 38, 0.35);
+      --text-main: #f5e8e8;
+      --text-muted: #b98e94;
+      --accent-red: #e6192d;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at center, #1b0205 0%, #080001 70%, #000000 100%);
+      font-family: 'Montserrat', sans-serif;
+      color: var(--text-main);
+      overflow-x: hidden;
+      padding: 24px 16px;
+      position: relative;
+    }
+
+    /* Լուսային էֆեկտներ ֆոնի վրա */
+    .ambient-glow {
+      position: fixed;
+      width: 550px;
+      height: 550px;
+      background: radial-gradient(circle, var(--crimson-glow) 0%, transparent 70%);
+      filter: blur(80px);
+      z-index: 0;
+      pointer-events: none;
+      animation: pulseGlow 7s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulseGlow {
+      0% { transform: scale(0.9) translate(-10px, -10px); opacity: 0.5; }
+      100% { transform: scale(1.15) translate(15px, 15px); opacity: 0.85; }
+    }
+
+    /* Գլխավոր կոնտեյներ՝ ապակեպատ և նեոնային եզրերով */
+    .main-wrapper {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 900px;
+      background: var(--dark-card);
+      border-radius: 28px;
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      box-shadow: 
+        0 0 45px rgba(138, 3, 3, 0.4),
+        0 0 100px rgba(100, 0, 0, 0.25),
+        inset 0 0 30px rgba(230, 25, 45, 0.12);
+      padding: 50px 36px;
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 7px 18px;
+      border-radius: 50px;
+      background: rgba(138, 3, 3, 0.35);
+      border: 1px solid rgba(230, 25, 45, 0.45);
+      color: #ff9e9e;
+      font-size: 0.78rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: 24px;
+      box-shadow: 0 0 16px rgba(230, 25, 45, 0.2);
+    }
+
+    h1 {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(2.2rem, 5vw, 3.6rem);
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      background: linear-gradient(180deg, #ffffff 15%, #ffb3b8 65%, #c81d25 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 30px rgba(230, 25, 45, 0.3);
+    }
+
+    .subtitle {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      max-width: 520px;
+      margin: 0 auto 46px;
+      line-height: 1.6;
+    }
+
+    /* Ժամանակացույցի բլոկները */
+    .timer-container {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-bottom: 46px;
+    }
+
+    @media (max-width: 650px) {
+      .timer-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+      }
+      .main-wrapper {
+        padding: 36px 20px;
+      }
+    }
+
+    .time-card {
+      background: rgba(10, 1, 2, 0.85);
+      border: 1px solid rgba(200, 20, 30, 0.25);
+      border-radius: 20px;
+      padding: 24px 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(138, 3, 3, 0.18);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .time-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(230, 25, 45, 0.6);
+      box-shadow: 0 12px 30px rgba(180, 10, 20, 0.35);
+    }
+
+    .time-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #e6192d, transparent);
+    }
+
+    .time-val {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(2.4rem, 4.8vw, 3.4rem);
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 0 0 18px rgba(255, 60, 75, 0.6);
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+
+    .time-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    /* Կոճակ */
+    .action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 34px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #a00714 0%, #680009 100%);
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      letter-spacing: 1px;
+      border: 1px solid rgba(255, 100, 110, 0.35);
+      cursor: pointer;
+      box-shadow: 0 6px 25px rgba(160, 7, 20, 0.45);
+      transition: all 0.3s ease;
+    }
+
+    .action-btn:hover {
+      background: linear-gradient(135deg, #c20d1c 0%, #82010c 100%);
+      box-shadow: 0 8px 30px rgba(230, 25, 45, 0.65);
+      transform: translateY(-2px);
+    }
+
+    .congrats-message {
+      display: none;
+      font-family: 'Cinzel', serif;
+      font-size: 2.2rem;
+      color: #ffb8b8;
+      text-shadow: 0 0 25px rgba(255, 30, 50, 0.8);
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ambient-glow"></div>
+
+  <div class="main-wrapper">
+    <div class="badge">Birthday Mode</div>
+    <h1>Հայկի Ծնունդը</h1>
+    <p class="subtitle">Հետհաշվարկ մինչև նոյեմբերի 2-ը։ Պատրաստվեք տարվա գլխավոր տոնին։</p>
+
+    <div class="timer-container" id="timer">
+      <div class="time-card">
+        <div class="time-val" id="days">00</div>
+        <div class="time-label">Օր</div>
+      </div>
+      <div class="time-card">
+        <div class="time-val" id="hours">00</div>
+        <div class="time-label">Ժամ</div>
+      </div>
+      <div class="time-card">
+        <div class="time-val" id="minutes">00</div>
+        <div class="time-label">Րոպե</div>
+      </div>
+      <div class="time-card">
+        <div class="time-val" id="seconds">00</div>
+        <div class="time-label">Վայրկյան</div>
+      </div>
+    </div>
+
+    <div id="congrats" class="congrats-message">
+      Շնորհավոր Ծնունդդ, Հայկ!
+    </div>
+
+    <button class="action-btn" onclick="celebrateClick()">
+      <span>Նոյեմբերի 2</span>
+      <span>→</span>
+    </button>
+  </div>
+
+  <script>
+    function getNextTargetDate() {
+      const now = new Date();
+      let targetYear = now.getFullYear();
+      // Նոյեմբեր ամիսը ինդեքսով 10 է (0-ից սկսած)
+      let targetDate = new Date(targetYear, 10, 2, 0, 0, 0);
+
+      // Եթե ընթացիկ տարվա նոյեմբերի 2-ն արդեն անցել է, հաշվարկել հաջորդ տարվա համար
+      if (now > targetDate) {
+        targetDate = new Date(targetYear + 1, 10, 2, 0, 0, 0);
+      }
+      return targetDate;
+    }
+
+    const targetDate = getNextTargetDate();
+
+    function updateTimer() {
+      const now = new Date().getTime();
+      const difference = targetDate.getTime() - now;
+
+      if (difference <= 0) {
+        document.getElementById('timer').style.display = 'none';
+        document.getElementById('congrats').style.display = 'block';
+        return;
+      }
+
+      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+      document.getElementById('days').innerText = String(days).padStart(2, '0');
+      document.getElementById('hours').innerText = String(hours).padStart(2, '0');
+      document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
+      document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
+    }
+
+    setInterval(updateTimer, 1000);
+    updateTimer();
+
+    function celebrateClick() {
+      alert("Շուտով նոյեմբերի 2-ն է՝ Հայկի ծննդյան օրը:");
+    }
+  </script>
+</body>
+</html>
